@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<title>Sudoku Solver</title>
+		<meta name="description" content="A web app to solve Sudoku puzzles">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<link rel="stylesheet" href="css/markdown.css">
+		<link rel="stylesheet" href="css/main.css">
+
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js"></script>
+		<script src="lib/polyfills.js"></script>
+		<script src="lib/utils.js"></script>
+		<script src="sudoku.js"></script>
+
+	</head>
+
+	<body>
+
+		<div id="wrapper">
+			<header>
+				<h1>Sudoku Solver</h1>
+			</header>
+
+			<p>
+			A web app to solve Sudoku puzzles. <button id="showreadme">View README file</button>
+			</p>
+			<div id="sudoku"></div>
+			<aside id="readme" aria-hidden="true"></aside>
+		</div>
+		<script>
+
+			( function() {
+
+				const md = window.markdownit();
+				const $readme = $( '#readme' );
+
+				$.get( 'README.md' ).then(
+					response => {
+						$readme.html( md.render( response ) );
+						open();
+					}
+				);
+				$( '#showreadme' )
+					.click( _ => {
+						toggle();
+						return false;
+					} );
+
+				$( document )
+					.on( 'click touchstart focusin', function( e ) {
+						if ( !$readme.isOrHas( e.target ) ) close();
+					} )
+					.keydown( function( e ) {
+						if ( e.which === 27 ) close();
+					} );
+
+				function open() {
+					$readme.attr( 'aria-hidden', false );
+				}
+
+				function close() {
+					$readme.attr( 'aria-hidden', true  );
+				}
+
+				function toggle() {
+					$readme.attr( 'aria-hidden', ( i, attr ) => attr === 'false' );
+				}
+
+			} )();
+
+			window.sudoku = new Sudoku( '#sudoku', 3 );
+
+		</script>
+
+	</body>
+
+</html>
+
