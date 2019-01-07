@@ -4,18 +4,21 @@
 	<head>
 
 		<meta charset="utf-8">
-		<title>Sudoku Solver</title>
-		<meta name="description" content="A web app to solve Sudoku puzzles">
+		<title>Sort My ASS</title>
+		<meta name="description" content="A web app for sorting dialog lines of Advanced SubStation Alpha (ASS) file by start time.">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<link rel="stylesheet" href="css/markdown.css">
-		<link rel="stylesheet" href="css/main.css">
-
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,400" />
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js"></script>
-		<script src="lib/polyfills.js"></script>
-		<script src="lib/utils.js"></script>
-		<script src="sudoku.js"></script>
+
+		<link rel="stylesheet" href="../dialog/dialog.css" />
+		<script src="../dialog/dialog.js"></script>
+
+		<link rel="stylesheet" href="../droploader/droploader.css" />
+		<script src="../droploader/droploader.js"></script>
+
+		<script src="sort-my-ass.js"></script>
 
 	</head>
 
@@ -23,57 +26,28 @@
 
 		<div id="wrapper">
 			<header>
-				<h1>Sudoku Solver</h1>
+				<h1>Sort My ASS</h1>
 			</header>
 
 			<p>
-			A web app to solve Sudoku puzzles. <button id="showreadme">View README file</button>
+			A web app for sorting dialog lines of Advanced SubStation Alpha (ASS) file by start time.
 			</p>
-			<div id="sudoku"></div>
-			<aside id="readme" aria-hidden="true"></aside>
+			<div id="dependencies">
+				<h2>Dependencies</h2>
+				<ul>
+					<li>
+						<a href="../droploader/droploader.html">droploader</a>
+					</li>
+					<li>
+						<a href="../dialog/dialog.html">dialog uploader</a>
+					</li>
+				</ul>
+			</div>
+			<div id="ass-sorter"></div>
 		</div>
 		<script>
 
-			( function() {
-
-				const md = window.markdownit();
-				const $readme = $( '#readme' );
-
-				$.get( 'README.md' ).then(
-					response => {
-						$readme.html( md.render( response ) );
-						open();
-					}
-				);
-				$( '#showreadme' )
-					.click( _ => {
-						toggle();
-						return false;
-					} );
-
-				$( document )
-					.on( 'click touchstart focusin', function( e ) {
-						if ( !$readme.isOrHas( e.target ) ) close();
-					} )
-					.keydown( function( e ) {
-						if ( e.which === 27 ) close();
-					} );
-
-				function open() {
-					$readme.attr( 'aria-hidden', false );
-				}
-
-				function close() {
-					$readme.attr( 'aria-hidden', true  );
-				}
-
-				function toggle() {
-					$readme.attr( 'aria-hidden', ( i, attr ) => attr === 'false' );
-				}
-
-			} )();
-
-			window.sudoku = new Sudoku( '#sudoku', 3 );
+			window.ass = new AssSorter( '#ass-sorter' );
 
 		</script>
 

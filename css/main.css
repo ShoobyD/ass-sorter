@@ -1,0 +1,44 @@
+
+:root {
+	--black_border  : 1px solid Black;
+	--header_height : 124px;
+}
+* {
+	margin          : 0;
+	padding         : 0;
+}
+
+body {
+	font-family     : Roboto, sans-serif;
+	color           : #1f0f4d;
+	background-color: #e9e4f1;
+	padding         : 5rem 1.25rem; /* 80 20 */
+}
+
+#wrapper {
+	width           : 100%;
+	max-width       : 800px;
+	color           : Black;
+	background-color: White;
+	text-align      : center;
+	margin          : 0 auto;
+}
+#wrapper > * {
+	border          : var( --black_border );
+}
+#wrapper > p, #wrapper > div {
+	padding         : 12px 64px;
+}
+header h1 {
+	height          : 100%;
+	text-align      : center;
+	line-height     : var( --header_height );
+}
+
+#dependencies {
+	text-align: left;
+}
+#dependencies ul {
+	margin: 20px;
+}
+
