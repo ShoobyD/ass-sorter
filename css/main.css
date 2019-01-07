@@ -35,10 +35,8 @@ header h1 {
 	line-height     : var( --header_height );
 }
 
-#dependencies {
+ul {
 	text-align: left;
-}
-#dependencies ul {
 	margin: 20px;
 }
 
@@ -47,4 +45,36 @@ header h1 {
 	margin: 20px auto;
 }
 
+#output {
+	text-align: left;
+}
+#output.hebrew-ass {
+	text-align: right;
+	direction: rtl;
+}
+#output table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 12px auto;
+}
+.line td {
+	border: 1px dashed black;
+	margin: 0;
+	padding: 12px;
+}
+.line:hover {
+	background: #e9e4f1;
+}
+.line .name {
+	width: 72px;
+	font-weight: bold;
+	background: #c6e2ce;
+ }
+.line .text {
+	direction: ltr;
+ }
+
+.reset {
+	padding: 6px 12px;
+}
 
