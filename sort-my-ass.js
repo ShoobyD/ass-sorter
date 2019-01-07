@@ -2,7 +2,7 @@
 /*
  * constructor AssSorter
  */
-function AssSorter( ELM_SEL, BLOCK_SIZE ) {
+function AssSorter( ELM_SEL ) {
 
 	try {
 		$( ELM_SEL );
@@ -31,26 +31,22 @@ function AssSorter( ELM_SEL, BLOCK_SIZE ) {
 	 *==*==*==*==*==*==*==*==*/
 
 	/*
-	 * constructor Cell
+	 * constructor Line
 	 */
-	function Line( x, y ) {
+	function Line( str ) {
 
-		this.x       = x;
-		this.y       = y;
-		this.value   = 0;
-		this.options = new Set( DIGITS );
-
-	};
-	Line.prototype.setValue = function( value ) {
-
-		this.value   = value;
-		this.options = new Set( [ value ] );
-
-	};
-	Line.prototype.update = function() {
-
-		if ( !this.value && this.options.size === 1 )
-			insert( this.x, this.y, this.options.values().next().value );
+		const match  = str.match( /Dialogue: ([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),(.*)/ );
+		if ( !match ) return;
+		this.Layer   = match[  1 ];
+		this.Start   = match[  2 ];
+		this.End     = match[  3 ];
+		this.Style   = match[  4 ];
+		this.Name    = match[  5 ];
+		this.MarginL = match[  6 ];
+		this.MarginR = match[  7 ];
+		this.MarginV = match[  8 ];
+		this.Effect  = match[  9 ];
+		this.Text    = match[ 10 ];
 
 	};
 
@@ -72,7 +68,26 @@ function AssSorter( ELM_SEL, BLOCK_SIZE ) {
 	 *      AssSorter fn     *
 	 *==*==*==*==*==*==*==*==*/
 
-	function setBase() {
+	function setDroploader() {
+
+		return $( '<div>' )
+			.appendTo( $wrap )
+			.droploader( {
+				'onload' : function( fileList ) {
+					if ( !fileList.length ) {
+						dialog.open( 'Choose at least one file.' );
+						return;
+					}
+					if ( fileList.length > 1 ) {
+						dialog.open( [
+							`<h2>One file at a time, Bruh..</h2>`,
+							`<h3>${ fileList.length } files uploaded:</h3>`,
+							`<ul>${ Array.from( fileList ).map( f => `<li>${ f.name }</li>` ).join( '' ) }</ul>`,
+						] );
+						return;
+					}
+				},
+			} );
 
 	}
 
@@ -84,15 +99,6 @@ function AssSorter( ELM_SEL, BLOCK_SIZE ) {
 
 	function BuildSudoku() {
 
-		const $sudoku = $( '<sudoku>' )
-			.delegate( 'cell.main', 'click',   handleCellClick   )
-			.delegate( 'cell.main', 'keydown', handleCellKeydown )
-			.delegate( 'cell.main', 'paste',   handleCellPaste   )
-			.appendTo( $wrap );
-		$sudoku[ 0 ].style.setProperty( '--block_size', BLOCK_SIZE );
-
-		return $sudoku;
-
 	}
 
 
@@ -102,10 +108,11 @@ function AssSorter( ELM_SEL, BLOCK_SIZE ) {
 	 *==*==*==*==*==*==*==*==*/
 
 	// constants
-	const SIZE  = BLOCK_SIZE * BLOCK_SIZE;
+	const dialog = window.Dialog? new Dialog(): { 'open' : alert.bind( window ) };
 
 	// DOM shit
 	const $wrap = $( ELM_SEL );
+	const uploader = setDroploader();
 
 
 
